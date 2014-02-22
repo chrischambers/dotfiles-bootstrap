@@ -2,14 +2,13 @@
 #
 # bootstrap installs things.
 
-DOTFILES_ROOT="`pwd`"
 BACKUP_DIR="$HOME/dotfiles-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
 os="$(`pwd`/bin/detect_os)"
 
-while [[ $# -ge 1 ]]
+while [[ $# -gt 1 ]]
 do
 key="$1"
 shift
@@ -26,10 +25,6 @@ case $key in
     ;;
     -d|--backup-dir)
     BACKUP_DIR="$1"
-    shift
-    ;;
-    -r|--dotfiles_root)
-    DOTFILES_ROOT="$1"
     shift
     ;;
     -o|--os)
@@ -136,4 +131,9 @@ install_dotfiles () {
   done
 }
 
+if [[ -n $1 ]]; then
+    DOTFILES_ROOT="$1"
+else
+    fail "The dotfiles directory path is a required argument."
+fi
 install_dotfiles
