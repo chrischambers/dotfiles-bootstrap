@@ -6,7 +6,7 @@ BACKUP_DIR="$HOME/dotfiles-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
-os="$(`pwd`/bin/detect_os)"
+os="$(`pwd`/detect_os)"
 
 while [[ $# -gt 1 ]]
 do
