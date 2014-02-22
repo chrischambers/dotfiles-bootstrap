@@ -14,7 +14,6 @@ do
 key="$1"
 shift
 
-echo $key
 case $key in
     --backup-all)
     backup_all=true
@@ -31,6 +30,10 @@ case $key in
     ;;
     -r|--dotfiles_root)
     DOTFILES_ROOT="$1"
+    shift
+    ;;
+    -o|--os)
+    os="$1"
     shift
     ;;
     *)
