@@ -3,7 +3,40 @@
 # bootstrap installs things.
 
 DOTFILES_ROOT="`pwd`"
-BACKUP_LOCATION="$HOME/dotfiles-backups"
+BACKUP_DIR="$HOME/dotfiles-backups"
+overwrite_all=false
+backup_all=false
+skip_all=false
+
+while [[ $# -ge 1 ]]
+do
+key="$1"
+shift
+
+echo $key
+case $key in
+    --backup-all)
+    backup_all=true
+    ;;
+    --overwrite-all)
+    overwrite_all=true
+    ;;
+    --skip-all)
+    skip_all=true
+    ;;
+    -d|--backup-dir)
+    BACKUP_DIR="$1"
+    shift
+    ;;
+    -r|--dotfiles_root)
+    DOTFILES_ROOT="$1"
+    shift
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+done
 
 set -e
 
@@ -34,10 +67,6 @@ link_files () {
 
 install_dotfiles () {
   info 'installing dotfiles'
-
-  overwrite_all=false
-  backup_all=false
-  skip_all=false
 
   for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
   do
@@ -83,9 +112,9 @@ install_dotfiles () {
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
       then
-        mkdir -p $BACKUP_LOCATION
-        mv $dest $BACKUP_LOCATION
-        success "moved $dest to $BACKUP_LOCATION"
+        mkdir -p $BACKUP_DIR
+        mv $dest $BACKUP_DIR
+        success "moved $dest to $BACKUP_DIR"
       fi
 
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]
