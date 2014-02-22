@@ -73,7 +73,7 @@ install_dotfiles () {
   info 'installing dotfiles'
 
   for source in $(find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink -o \
-                                                  -name \*.symlink.${os})
+                                                  -name \*.symlink*.${os}*)
   do
     dest="$HOME/.`basename \"${source}\" | sed 's/\([^.]*\).*/\1/'`"
 
