@@ -7,6 +7,7 @@ BACKUP_DIR="$HOME/dotfiles-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
+os="$(`pwd`/bin/detect_os)"
 
 while [[ $# -ge 1 ]]
 do
@@ -68,9 +69,10 @@ link_files () {
 install_dotfiles () {
   info 'installing dotfiles'
 
-  for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  for source in $(find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink -o \
+                                                  -name \*.symlink.${os})
   do
-    dest="$HOME/.`basename \"${source%.*}\"`"
+    dest="$HOME/.`basename \"${source}\" | sed 's/\([^.]*\).*/\1/'`"
 
     if [ -f $dest ] || [ -d $dest ]
     then
