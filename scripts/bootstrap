@@ -3,6 +3,7 @@
 # bootstrap installs things.
 
 DOTFILES_ROOT="`pwd`"
+BACKUP_LOCATION="$HOME/dotfiles-backups"
 
 set -e
 
@@ -82,8 +83,9 @@ install_dotfiles () {
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
       then
-        mv $dest $dest\.backup
-        success "moved $dest to $dest.backup"
+        mkdir -p $BACKUP_LOCATION
+        mv $dest $BACKUP_LOCATION
+        success "moved $dest to $BACKUP_LOCATION"
       fi
 
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]
