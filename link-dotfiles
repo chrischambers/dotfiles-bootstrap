@@ -13,7 +13,7 @@ backup_dir="$HOME/dotfile-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
-os="$(`pwd`/detect_os)"
+os=$(detect_os)
 # ---------------
 
 while [[ $# -gt 1 ]]
