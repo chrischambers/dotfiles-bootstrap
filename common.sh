@@ -26,3 +26,7 @@ link_files () {
 find_dotfile_symlinks () {
   find $1 -maxdepth 2 -name \*.symlink -o -name \*.symlink*.${os}*
 }
+
+determine_dotfile_destination () {
+  echo "$HOME/.`basename \"$1\" | sed 's/\([^.]*\).*/\1/'`"
+}

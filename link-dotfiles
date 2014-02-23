@@ -56,7 +56,7 @@ install_dotfiles () {
 
   for source in $(find_dotfile_symlinks $dotfiles_root)
   do
-    dest="$HOME/.`basename \"${source}\" | sed 's/\([^.]*\).*/\1/'`"
+    dest=$(determine_dotfile_destination $source)
 
     if [ -f $dest ] || [ -d $dest ]
     then
