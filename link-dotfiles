@@ -7,42 +7,42 @@ echo ''
 
 source `pwd`/common.sh
 
-# Default values:
-# ---------------
+# Defaults:
+# ---------
 backup_dir="$HOME/dotfile-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
 os=$(detect_os)
-# ---------------
+# ----------
 
 while [[ $# -gt 1 ]]
 do
-key="$1"
-shift
+  key="$1"
+  shift
 
-case $key in
-    --backup-all)
-    backup_all=true
+  case $key in
+    --backup-all )
+      backup_all=true
+      ;;
+    --overwrite-all )
+      overwrite_all=true
+      ;;
+    --skip-all )
+      skip_all=true
+      ;;
+    -d|--backup-dir )
+      backup_dir="$1"
+      shift
+      ;;
+    -o|--os )
+      os="$1"
+      shift
+      ;;
+    * )
+      # unknown option
     ;;
-    --overwrite-all)
-    overwrite_all=true
-    ;;
-    --skip-all)
-    skip_all=true
-    ;;
-    -d|--backup-dir)
-    backup_dir="$1"
-    shift
-    ;;
-    -o|--os)
-    os="$1"
-    shift
-    ;;
-    *)
-            # unknown option
-    ;;
-esac
+  esac
 done
 
 if [[ -n $1 ]]; then

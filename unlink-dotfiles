@@ -7,25 +7,25 @@ echo ''
 
 source `pwd`/common.sh
 
-# Default values:
-# ---------------
+# Defaults:
+# ---------
 os=$(detect_os)
-# ---------------
+# ---------
 
 while [[ $# -gt 1 ]]
 do
-key="$1"
-shift
+  key="$1"
+  shift
 
-case $key in
-    -o|--os)
-    os="$1"
-    shift
-    ;;
-    *)
-            # unknown option
-    ;;
-esac
+  case $key in
+    -o|--os )
+      os="$1"
+      shift
+      ;;
+    * )
+      # unknown option
+      ;;
+  esac
 done
 
 if [[ -n $1 ]]; then
