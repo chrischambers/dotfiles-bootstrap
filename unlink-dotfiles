@@ -3,8 +3,6 @@
 # unlink-dotfiles
 
 set -e
-echo ''
-
 source `pwd`/common.sh
 
 # Defaults:
@@ -57,5 +55,6 @@ unlink_dotfiles () {
 
 }
 
+echo ''
 check_dotfiles_are_symbolic_links
 unlink_dotfiles

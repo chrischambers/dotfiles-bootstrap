@@ -3,8 +3,6 @@
 # link-dotfiles
 
 set -e
-echo ''
-
 source `pwd`/common.sh
 
 # Defaults:
@@ -116,4 +114,5 @@ link_dotfiles () {
   done
 }
 
+echo ''
 link_dotfiles
