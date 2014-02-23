@@ -23,3 +23,6 @@ link_files () {
   success "linked $1 to $2"
 }
 
+find_dotfile_symlinks () {
+  find $1 -maxdepth 2 -name \*.symlink -o -name \*.symlink*.${os}*
+}
