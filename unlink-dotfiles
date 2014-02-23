@@ -30,11 +30,7 @@ do
   esac
 done
 
-if [[ -n $1 ]]; then
-    dotfiles_root="$(abspath $1)"
-else
-    fail "The dotfiles directory path is a required argument."
-fi
+check_dotfiles_root_provided $1
 # ----------------------------------------------------------------------------
 
 check_dotfiles_are_symbolic_links () {

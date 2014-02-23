@@ -38,6 +38,14 @@ remove_link () {
   success "removed $1"
 }
 
+check_dotfiles_root_provided () {
+if [[ -n $1 ]]; then
+    dotfiles_root="$(abspath $1)"
+else
+    fail "The path to the dotfiles root directory is a required argument."
+fi
+}
+
 find_dotfile_symlinks () {
   if [[ -n $2 ]]; then
       os=$2
