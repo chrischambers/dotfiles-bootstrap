@@ -18,6 +18,16 @@ fail () {
   exit
 }
 
+abspath () {
+  case "$1" in
+    /*)
+    printf "%s\n" "$1"
+    ;;
+    *)printf "%s\n" "$PWD/$1"
+    ;;
+  esac;
+}
+
 link_files () {
   ln -s "$1" "$2"
   success "linked $1 to $2"

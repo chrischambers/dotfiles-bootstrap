@@ -46,7 +46,7 @@ esac
 done
 
 if [[ -n $1 ]]; then
-    dotfiles_root="$1"
+    dotfiles_root="$(abspath $1)"
 else
     fail "The dotfiles directory path is a required argument."
 fi
