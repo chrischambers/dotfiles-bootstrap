@@ -7,6 +7,27 @@ echo ''
 
 source `pwd`/common.sh
 
+# Default values:
+# ---------------
+os=$(detect_os)
+# ---------------
+
+while [[ $# -gt 1 ]]
+do
+key="$1"
+shift
+
+case $key in
+    -o|--os)
+    os="$1"
+    shift
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+done
+
 if [[ -n $1 ]]; then
     dotfiles_root="$(abspath $1)"
 else
@@ -14,7 +35,7 @@ else
 fi
 
 check_dotfiles_are_symbolic_links () {
-  for source in $(find_dotfile_symlinks $dotfiles_root)
+  for source in $(find_dotfile_symlinks $dotfiles_root $os)
   do
     dest=$(determine_dotfile_destination $source)
     if [[ -e $dest && ! -L $dest ]]; then
@@ -26,7 +47,7 @@ check_dotfiles_are_symbolic_links () {
 unlink_dotfiles () {
   info 'Unlinking dotfiles'
 
-  for source in $(find_dotfile_symlinks $dotfiles_root)
+  for source in $(find_dotfile_symlinks $dotfiles_root $os)
   do
     dest=$(determine_dotfile_destination $source)
     if [[ -L $dest ]]; then
