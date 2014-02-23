@@ -45,6 +45,12 @@ case $key in
 esac
 done
 
+if [[ -n $1 ]]; then
+    dotfiles_root="$1"
+else
+    fail "The dotfiles directory path is a required argument."
+fi
+
 install_dotfiles () {
   info 'installing dotfiles'
 
@@ -111,9 +117,4 @@ install_dotfiles () {
   done
 }
 
-if [[ -n $1 ]]; then
-    dotfiles_root="$1"
-else
-    fail "The dotfiles directory path is a required argument."
-fi
 install_dotfiles
