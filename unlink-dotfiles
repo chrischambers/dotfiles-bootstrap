@@ -1,3 +1,40 @@
 #!/usr/bin/env bash
 #
 # unlink-dotfiles
+
+set -e
+echo ''
+
+source `pwd`/common.sh
+
+if [[ -n $1 ]]; then
+    dotfiles_root="$1"
+else
+    fail "The dotfiles directory path is a required argument."
+fi
+
+check_dotfiles_are_symbolic_links () {
+  for source in $(find_dotfile_symlinks $dotfiles_root)
+  do
+    dest=$(determine_dotfile_destination $source)
+    if [[ -e $dest && ! -L $dest ]]; then
+        fail "All dotfiles must be symbolic links. $dest is not."
+    fi
+  done
+}
+
+unlink_dotfiles () {
+  info 'Unlinking dotfiles'
+
+  for source in $(find_dotfile_symlinks $dotfiles_root)
+  do
+    dest=$(determine_dotfile_destination $source)
+    if [[ -L $dest ]]; then
+      remove_link $dest
+    fi
+  done
+
+}
+
+check_dotfiles_are_symbolic_links
+unlink_dotfiles

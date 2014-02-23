@@ -51,10 +51,10 @@ else
     fail "The dotfiles directory path is a required argument."
 fi
 
-install_dotfiles () {
-  info 'installing dotfiles'
+link_dotfiles () {
+  info 'Linking dotfiles'
 
-  for source in $(find_dotfile_symlinks $dotfiles_root)
+  for source in $(find_dotfile_symlinks $dotfiles_root $os)
   do
     dest=$(determine_dotfile_destination $source)
 
@@ -92,8 +92,7 @@ install_dotfiles () {
 
       if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]
       then
-        rm -rf $dest
-        success "removed $dest"
+        remove_link $dest
       fi
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
@@ -117,4 +116,4 @@ install_dotfiles () {
   done
 }
 
-install_dotfiles
+link_dotfiles
