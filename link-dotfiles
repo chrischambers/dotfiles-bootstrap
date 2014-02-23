@@ -5,6 +5,7 @@
 set -e
 source `pwd`/common.sh
 
+# ----------------------------------------------------------------------------
 # Defaults:
 # ---------
 backup_dir="$HOME/dotfile-backups"
@@ -12,8 +13,11 @@ overwrite_all=false
 backup_all=false
 skip_all=false
 os=$(detect_os)
-# ----------
+# ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# Parse Arguments:
+# ----------------
 while [[ $# -gt 1 ]]
 do
   key="$1"
@@ -48,6 +52,7 @@ if [[ -n $1 ]]; then
 else
     fail "The dotfiles directory path is a required argument."
 fi
+# ----------------------------------------------------------------------------
 
 link_dotfiles () {
   info 'Linking dotfiles'
