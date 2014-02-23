@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 #
-# bootstrap installs things.
+# link-dotfiles
 
-BACKUP_DIR="$HOME/dotfiles-backups"
+source `pwd`/common.sh
+
+# Default values:
+# ---------------
+backup_dir="$HOME/dotfiles-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
 os="$(`pwd`/detect_os)"
+# ---------------
 
 while [[ $# -gt 1 ]]
 do
@@ -24,7 +29,7 @@ case $key in
     skip_all=true
     ;;
     -d|--backup-dir)
-    BACKUP_DIR="$1"
+    backup_dir="$1"
     shift
     ;;
     -o|--os)
@@ -41,33 +46,10 @@ set -e
 
 echo ''
 
-info () {
-  printf "  [ \033[00;34m..\033[0m ] $1"
-}
-
-user () {
-  printf "\r  [ \033[0;33m? \033[0m ] $1 "
-}
-
-success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
-}
-
-fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
-  echo ''
-  exit
-}
-
-link_files () {
-  ln -s "$1" "$2"
-  success "linked $1 to $2"
-}
-
 install_dotfiles () {
   info 'installing dotfiles'
 
-  for source in $(find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink -o \
+  for source in $(find $dotfiles_root -maxdepth 2 -name \*.symlink -o \
                                                   -name \*.symlink*.${os}*)
   do
     dest="$HOME/.`basename \"${source}\" | sed 's/\([^.]*\).*/\1/'`"
@@ -112,9 +94,9 @@ install_dotfiles () {
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]
       then
-        mkdir -p $BACKUP_DIR
-        mv $dest $BACKUP_DIR
-        success "moved $dest to $BACKUP_DIR"
+        mkdir -p $backup_dir
+        mv $dest $backup_dir
+        success "moved $dest to $backup_dir"
       fi
 
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]
@@ -132,7 +114,7 @@ install_dotfiles () {
 }
 
 if [[ -n $1 ]]; then
-    DOTFILES_ROOT="$1"
+    dotfiles_root="$1"
 else
     fail "The dotfiles directory path is a required argument."
 fi
