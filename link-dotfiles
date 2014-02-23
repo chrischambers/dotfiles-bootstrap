@@ -9,7 +9,7 @@ source `pwd`/common.sh
 
 # Default values:
 # ---------------
-backup_dir="$HOME/dotfiles-backups"
+backup_dir="$HOME/dotfile-backups"
 overwrite_all=false
 backup_all=false
 skip_all=false
