@@ -2,6 +2,9 @@
 #
 # link-dotfiles
 
+set -e
+echo ''
+
 source `pwd`/common.sh
 
 # Default values:
@@ -41,10 +44,6 @@ case $key in
     ;;
 esac
 done
-
-set -e
-
-echo ''
 
 install_dotfiles () {
   info 'installing dotfiles'
