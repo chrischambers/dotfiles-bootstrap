@@ -54,14 +54,19 @@ find_dotfile_symlinks () {
   fi
 
   if [[ -n $3 ]]; then
-    find $1 -maxdepth 2 -name \*.${3} -o -name \*.${3}*.${os}*
+    res=$(find $1 -maxdepth 2 \! -name "*.sw?" \! -name ".git" \! \
+                  -name ".gitignore" -name \*.${3} -o -name \*.${3}*.${os}* )
   else
-    find $1 -maxdepth 2 -name .\* -o -name .\*.${os}\*
+    res=$(find $1 -maxdepth 2 \! -name "*.sw?" \! -name ".git" \! \
+                  -name ".gitignore" -name .\* -o -name .\*.${os}\* )
   fi
+  echo $res
+  # echo $res | grep -v '^\.$' | grep -v '^\.\.$'
 }
 
 determine_dotfile_destination () {
-  echo "$HOME/.`basename \"$1\" | sed 's/\.?\([^.]*\).*/\1/'`"
+    fname=$(echo `basename "$1"` | sed -E 's/^\.?(.*)/\1/')
+    echo "$HOME/.$(echo $fname | sed 's/\([^.]*\).*/\1/')"
 }
 
 detect_os () {
