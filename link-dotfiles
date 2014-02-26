@@ -44,6 +44,10 @@ do
       os="$1"
       shift
       ;;
+    -s|--suffix )
+      suffix="$1"
+      shift
+      ;;
     * )
       # unknown option
     ;;
@@ -56,7 +60,7 @@ check_dotfiles_root_provided $1
 link_dotfiles () {
   info 'Linking dotfiles'
 
-  for source in $(find_dotfile_symlinks $dotfiles_root $os)
+  for source in $(find_dotfile_symlinks $dotfiles_root $os $suffix)
   do
     dest=$(determine_dotfile_destination $source)
 

@@ -53,11 +53,15 @@ find_dotfile_symlinks () {
       os=$(detect_os)
   fi
 
-  find $1 -maxdepth 2 -name \*.symlink -o -name \*.symlink*.${os}*
+  if [[ -n $3 ]]; then
+    find $1 -maxdepth 2 -name \*.${3} -o -name \*.${3}*.${os}*
+  else
+    find $1 -maxdepth 2 -name .\* -o -name .\*.${os}\*
+  fi
 }
 
 determine_dotfile_destination () {
-  echo "$HOME/.`basename \"$1\" | sed 's/\([^.]*\).*/\1/'`"
+  echo "$HOME/.`basename \"$1\" | sed 's/\.?\([^.]*\).*/\1/'`"
 }
 
 detect_os () {

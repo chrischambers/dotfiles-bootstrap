@@ -27,6 +27,10 @@ do
       os="$1"
       shift
       ;;
+    -s|--suffix )
+      suffix="$1"
+      shift
+      ;;
     * )
       # unknown option
       ;;
@@ -37,7 +41,7 @@ check_dotfiles_root_provided $1
 # ----------------------------------------------------------------------------
 
 check_dotfiles_are_symbolic_links () {
-  for source in $(find_dotfile_symlinks $dotfiles_root $os)
+  for source in $(find_dotfile_symlinks $dotfiles_root $os $suffix)
   do
     dest=$(determine_dotfile_destination $source)
     if [[ -e $dest && ! -L $dest ]]; then
@@ -49,7 +53,7 @@ check_dotfiles_are_symbolic_links () {
 unlink_dotfiles () {
   info 'Unlinking dotfiles'
 
-  for source in $(find_dotfile_symlinks $dotfiles_root $os)
+  for source in $(find_dotfile_symlinks $dotfiles_root $os $suffix)
   do
     dest=$(determine_dotfile_destination $source)
     if [[ -L $dest ]]; then
