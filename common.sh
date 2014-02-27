@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+maxdepth=4
+
 info () {
   printf "\r  [ \033[00;34m..\033[0m ] $1\n"
 }
@@ -54,10 +56,10 @@ find_dotfile_symlinks () {
   fi
 
   if [[ -n $3 ]]; then
-    res=$(find $1 -maxdepth 2 \! -name "*.sw?" \! -name ".git" \! \
+    res=$(find $1 -maxdepth $maxdepth \! -name "*.sw?" \! -name ".git" \! \
                   -name ".gitignore" -name \*.${3} -o -name \*.${3}*.${os}* )
   else
-    res=$(find $1 -maxdepth 2 \! -name "*.sw?" \! -name ".git" \! \
+    res=$(find $1 -maxdepth $maxdepth \! -name "*.sw?" \! -name ".git" \! \
                   -name ".gitignore" -name .\* -o -name .\*.${os}\* )
   fi
   echo $res
@@ -66,7 +68,7 @@ find_dotfile_symlinks () {
 
 determine_dotfile_destination () {
     fname=$(echo `basename "$1"` | sed -E 's/^\.?(.*)/\1/')
-    echo "$HOME/.$(echo $fname | sed 's/\([^.]*\).*/\1/')"
+    echo "$HOME/.$(echo $fname | sed 's/\.[^.]*$//' )"
 }
 
 detect_os () {
