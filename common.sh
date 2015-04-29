@@ -55,11 +55,21 @@ find_dotfile_symlinks () {
       os=$(detect_os)
   fi
 
+  if [[ -e $1 && -L $1 ]]; then
+    if [[ $os = "osx" ]]; then
+        s=`readlink $1`
+    else
+        s=`readlink -f $1`
+    fi
+  else
+    s="$1"
+  fi
+
   if [[ -n $3 ]]; then
-    res=$(find $1 -maxdepth $maxdepth \! -name "*.sw?" \! -name ".git" \! \
+    res=$(find $s -maxdepth $maxdepth \! -name "*.sw?" \! -name ".git" \! \
                   -name ".gitignore" -name \*.${3} -o -name \*.${3}*.${os}* )
   else
-    res=$(find $1 -maxdepth $maxdepth \! -name "*.sw?" \! -name ".git" \! \
+    res=$(find $s -maxdepth $maxdepth \! -name "*.sw?" \! -name ".git" \! \
                   -name ".gitignore" -name .\* -o -name .\*.${os}\* )
   fi
   echo $res
